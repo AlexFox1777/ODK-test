@@ -32,7 +32,7 @@ router.post('/odk/', upload.single('file'), (req, res) => {
     fs.readFile(path, {encoding: 'utf8'}, (err, data) => {
         if (err) throw err;
         console.log('Data XML ', data);
-        parser.parseString(data, function (err, result) {
+     /*   parser.parseString(data, function (err, result) {
             console.log('FROM XML TO JSON ', result);
             const {'h:html': root} = result;
             const {'h:head': head} = root;
@@ -57,9 +57,10 @@ router.post('/odk/', upload.single('file'), (req, res) => {
                     })
                     .catch(err => res.status(500).json({error: "There was an error while saving the user to the database"}))
             }
-            fs.unlinkSync(path);
+            // fs.unlinkSync(path);
             res.status(200).json(user);
-        })
+        })*/
+     res.status(200).json("hello");
     });
 });
 
