@@ -8,7 +8,7 @@ require('dotenv').config();
 const helmet = require('helmet');
 const cors = require('cors');
 
-// server.use(express.urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(xmlparser());
 server.use(helmet());

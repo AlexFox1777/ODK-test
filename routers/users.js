@@ -8,6 +8,7 @@ const multer = require('multer');
 const storage = {
     dest: './uploads/',
     filename: function (req, file, cb) {
+        console.log('FIELDNAME ', file.fieldname);
         cb(null, file.fieldname + '-' + Date.now())
     }
 };
@@ -24,43 +25,33 @@ router.post('/', (req, res) => {
     }
 });
 
-router.post('/odk/', upload.single('file'), (req, res) => {
+router.post('/odk/', upload.single('xml_submission_file'), (req, res) => {
     console.log('BODY ', req.body);
     console.log('FILE ', req.file);
-
     const path = req.file.path;
     fs.readFile(path, {encoding: 'utf8'}, (err, data) => {
         if (err) throw err;
         console.log('Data XML ', data);
-     /*   parser.parseString(data, function (err, result) {
+        parser.parseString(data, function (err, result) {
             console.log('FROM XML TO JSON ', result);
-            const {'h:html': root} = result;
-            const {'h:head': head} = root;
-            const headData = head[0];
-            const {'model': model} = headData;
-            const modelData = model[0];
-            const {'instance': instance} = modelData;
-            const instanceData = instance[0];
-            const {'data': data} = instanceData;
-            const {'username': username} = data[0];
-            const {'password': password} = data[0];
+            const {"data": data} = result;
+            const {username, password} = data;
             const user = {
-              username: username,
-              password: password,
+              username: username[0],
+              password: password[0],
             };
-            console.log('username ', username, 'password ', password);
-            if (username.length && password.length) {
+            console.log("USER ", user);
+           /* if (username.length && password.length) {
                 db.add(user)
                     .then(([user]) => {
                         fs.unlinkSync(path);
                         res.status(201).json(user);
                     })
                     .catch(err => res.status(500).json({error: "There was an error while saving the user to the database"}))
-            }
-            // fs.unlinkSync(path);
-            res.status(200).json(user);
-        })*/
-     res.status(200).json("hello");
+            }*/
+            fs.unlinkSync(path);
+            res.status(201).json(user);
+        });
     });
 });
 
